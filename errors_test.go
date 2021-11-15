@@ -52,7 +52,7 @@ var _ = Describe("test validator", func() {
 	})
 
 	It("test request validate username", func() {
-		MockJsonPost(ctx, map[string]interface{}{"username": "shyandsy!", "email": "shyandsy@gmail.com", "password": "123456"})
+		MockJsonPost(ctx, map[string]interface{}{"username": "shyandsy!#", "email": "shyandsy@gmail.com", "password": "123456"})
 
 		req := RegisterForm{}
 		if err := ctx.BindJSON(&req); err != nil {
