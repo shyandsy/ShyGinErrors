@@ -22,14 +22,14 @@ jobs:
       - name: Setup golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.43.0
-          args: --verbose
+          version: latest
+          args: --verbose --print-issued-lines
   test:
     needs: lint
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        go: [1.13, 1.14, 1.15, 1.16, 1.17]
+        go: [1.15, 1.16, 1.17]
         test-tags: ['', nomsgpack]
         include:
           - os: ubuntu-latest

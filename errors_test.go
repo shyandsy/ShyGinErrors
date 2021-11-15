@@ -62,8 +62,7 @@ var _ = Describe("test validator", func() {
 
 			value, ok := errors["username"]
 			assert.True(GinkgoT(), ok)
-			msg, _ := requestErrorMessage["error_invalid_username"]
-			assert.True(GinkgoT(), value == msg)
+			assert.True(GinkgoT(), value == requestErrorMessage["error_invalid_username"])
 		} else {
 			assert.Fail(GinkgoT(), "error on username field has not been detected")
 		}
@@ -79,8 +78,7 @@ var _ = Describe("test validator", func() {
 
 			value, ok := errors["email"]
 			assert.True(GinkgoT(), ok)
-			msg, _ := requestErrorMessage["error_invalid_email"]
-			assert.True(GinkgoT(), value == msg)
+			assert.True(GinkgoT(), value == requestErrorMessage["error_invalid_email"])
 		} else {
 			assert.Fail(GinkgoT(), "error on email field has not been detected")
 		}
@@ -96,8 +94,7 @@ var _ = Describe("test validator", func() {
 
 			value, ok := errors["password"]
 			assert.True(GinkgoT(), ok)
-			msg, _ := requestErrorMessage["error_invalid_password"]
-			assert.True(GinkgoT(), value == msg)
+			assert.True(GinkgoT(), value == requestErrorMessage["error_invalid_password"])
 		} else {
 			assert.Fail(GinkgoT(), "error on email field has not been detected")
 		}
@@ -113,18 +110,15 @@ var _ = Describe("test validator", func() {
 
 			value, ok := errors["username"]
 			assert.True(GinkgoT(), ok)
-			msg, _ := requestErrorMessage["error_invalid_username"]
-			assert.True(GinkgoT(), value == msg)
+			assert.True(GinkgoT(), value == requestErrorMessage["error_invalid_username"])
 
 			value, ok = errors["email"]
 			assert.True(GinkgoT(), ok)
-			msg, _ = requestErrorMessage["error_invalid_email"]
-			assert.True(GinkgoT(), value == msg)
+			assert.True(GinkgoT(), value == requestErrorMessage["error_invalid_email"])
 
 			value, ok = errors["password"]
 			assert.True(GinkgoT(), ok)
-			msg, _ = requestErrorMessage["error_invalid_password"]
-			assert.True(GinkgoT(), value == msg)
+			assert.True(GinkgoT(), value == requestErrorMessage["error_invalid_password"])
 
 		} else {
 			assert.Fail(GinkgoT(), "error on username, email, password fields has not been detected")
