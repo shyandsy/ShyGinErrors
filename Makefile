@@ -9,8 +9,7 @@ TESTTAGS ?= ""
 
 .PHONY: test
 test:
-	echo $(TESTFOLDER);
-	#echo "mode: count" > coverage.out
+	echo "mode: count" > coverage.out
 	for d in $(TESTFOLDER); do \
 		$(GO) test -tags $(TESTTAGS) -v -covermode=count -coverprofile=profile.out $$d > tmp.out; \
 		cat tmp.out; \
