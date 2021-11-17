@@ -28,14 +28,12 @@ jobs:
     needs: lint
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         go: [1.16, 1.17]
         test-tags: ['', nomsgpack]
         include:
           - os: ubuntu-latest
             go-build: ~/.cache/go-build
-          - os: macos-latest
-            go-build: ~/Library/Caches/go-build
     name: ${{ matrix.os }} @ Go ${{ matrix.go }} ${{ matrix.test-tags }}
     runs-on: ${{ matrix.os }}
     env:
@@ -52,6 +50,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
+
+      - name: Go report card
+        uses: creekorful/goreportcard-action@v1.0
 
       - uses: actions/cache@v2
         with:
