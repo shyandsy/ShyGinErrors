@@ -5,6 +5,12 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/shyandsy/shyginerrors)](https://goreportcard.com/report/github.com/shyandsy/shyginerrors)
 An extension to generate key value errors for gin framework and go validator error 
 
+#### Usage
+Install it
+```shell
+go get github.com/shyandsy/ShyGinErrors
+```
+
 #### What we want 
 validate request and get error messages like below
 ```json
@@ -17,10 +23,15 @@ validate request and get error messages like below
 
 sample code
 ```go
+import (
+    "github.com/shyandsy/ShyGinErrors"
+)
+
+// define error messages
 var requestErrorMessage = map[string]string{
-    "error_invalid_email":    "请输入一个有效地meail地址",
-    "error_invalid_username": "username仅包含大小写字母和数字，长度6-32",
-    "error_invalid_password": "密码长度6-32",
+    "error_invalid_email":    "invalid email",
+    "error_invalid_username": "invalid username",
+    "error_invalid_password": "invalid password",
 }
 
 type RegisterForm struct {
@@ -32,7 +43,7 @@ type RegisterForm struct {
 func (c Controller) Register(reqCtx appx.ReqContext) (interface{}, error) {
 
 	// step 1: initialize the ge object
-    ge = NewShyGinErrors(requestErrorMessage)
+    ge = ShyGinErrors.NewShyGinErrors(requestErrorMessage)
 	
 	req := model.RegisterForm{}
 	if err := reqCtx.Gin().BindJSON(&req); err != nil {
