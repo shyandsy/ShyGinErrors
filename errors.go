@@ -31,36 +31,40 @@ func (ge ginErrors) ListAllErrors(model interface{}, err error) map[string]strin
 	errors := map[string]string{}
 	fields := map[string]ErrorResult{}
 
-	// resolve all json tags for the struct
-	types := reflect.TypeOf(model)
-	values := reflect.ValueOf(model)
+	if _, ok := err.(validator.ValidationErrors); ok {
+		// resolve all json tags for the struct
+		types := reflect.TypeOf(model)
+		values := reflect.ValueOf(model)
 
-	for i := 0; i < types.NumField(); i++ {
-		field := types.Field(i)
-		value := values.Field(i).Interface()
-		jsonTag := field.Tag.Get("json")
-		if jsonTag == "" {
-			jsonTag = field.Name
-		}
-		messageTag := field.Tag.Get("msg")
-		msg := ge.getErrorMessage(messageTag)
+		for i := 0; i < types.NumField(); i++ {
+			field := types.Field(i)
+			value := values.Field(i).Interface()
+			jsonTag := field.Tag.Get("json")
+			if jsonTag == "" {
+				jsonTag = field.Name
+			}
+			messageTag := field.Tag.Get("msg")
+			msg := ge.getErrorMessage(messageTag)
 
-		fmt.Printf("%s: %v = %v, tag= %v\n", field.Name, field.Type, value, jsonTag)
-		fields[field.Name] = ErrorResult{
-			Field:   field.Name,
-			JsonTag: jsonTag,
-			Message: msg,
-		}
-	}
-
-	for _, e := range err.(validator.ValidationErrors) {
-		if field, ok := fields[e.Field()]; ok {
-			if field.Message != "" {
-				errors[field.JsonTag] = field.Message
-			} else {
-				errors[field.JsonTag] = e.Error()
+			fmt.Printf("%s: %v = %v, tag= %v\n", field.Name, field.Type, value, jsonTag)
+			fields[field.Name] = ErrorResult{
+				Field:   field.Name,
+				JsonTag: jsonTag,
+				Message: msg,
 			}
 		}
+
+		for _, e := range err.(validator.ValidationErrors) {
+			if field, ok := fields[e.Field()]; ok {
+				if field.Message != "" {
+					errors[field.JsonTag] = field.Message
+				} else {
+					errors[field.JsonTag] = e.Error()
+				}
+			}
+		}
+	}else{
+		errors["0"] = err.Error()
 	}
 
 	return errors
